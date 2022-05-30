@@ -30,6 +30,7 @@ class AuthController extends Controller
         );
         //send a success  response  with status 200,user,token and message
         return response()->json([
+            'status' => 'success',
             'message' => 'Account created successfully',
             'user' => $user,
             'token' => $user->createToken($validate['email'])->plainTextToken,
@@ -51,6 +52,7 @@ class AuthController extends Controller
         //check if user exists
         if(!$user){
             return response()->json([
+                'status' => 'failed',
                 'message' => 'User does not exist',
             ], 404);
         }
@@ -58,6 +60,7 @@ class AuthController extends Controller
         //check if password matches
         if(!Hash::check($validate['password'], $user->password)){
             return response()->json([
+                'status' => 'failed',
                 'message' => 'Password does not match',
             ], 404);
         }
@@ -67,6 +70,7 @@ class AuthController extends Controller
 
         //send a success  response  with status 200,user,token and message
         return response()->json([
+            'status' => 'success',
             'message' => 'Login successful',
             'user' => $user,
             'token' => $token,
@@ -80,7 +84,8 @@ class AuthController extends Controller
 
         //send a success  response  with status 200 and message
         return response()->json([
-            'message' => 'Logout successful',
+            'status' => 'success',
+            'message' => 'Logout successful'
         ], 200);
 
     }
