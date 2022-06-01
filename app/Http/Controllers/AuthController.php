@@ -22,6 +22,7 @@ class AuthController extends Controller
         //create  a user 
         $user = User::create(
             [
+                'user_id' => uniqid().rand(1,100),
                 'fullname' => $validate['fullname'],
                 'phone' => $validate['phone'],
                 'email' => $validate['email'],

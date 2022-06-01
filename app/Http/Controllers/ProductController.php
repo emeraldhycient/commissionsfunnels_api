@@ -15,7 +15,7 @@ class ProductController extends Controller
 
     {
 
-       $user = User::find($request->product_seller);
+       $user = User::where('user_id',$request->product_seller);
 
         if($user && $user->is_vendor){
 
@@ -49,6 +49,7 @@ class ProductController extends Controller
             //create  a user
             $product = Product::create(
                 [
+                    'product_id' => $request->product_seller.uniqid(),
                     'product_name' => $validate['product_name'],
                     'product_description' => $validate['product_description'],
                     'product_price' => $validate['product_price'],
@@ -76,6 +77,7 @@ class ProductController extends Controller
         }
     }
 
+
     public function getProductById($id)
     {
         $product = Product::find($id);
@@ -95,11 +97,11 @@ class ProductController extends Controller
 
     public function getAllProducts()
     {
-        $products = Product::all();
+        $products = Product::where('is_approved',1)->get();
         if(!$products){
             return response()->json([
                 'status' => 'failed',
-                'message' => 'Products does not exist',
+                'message' => 'an error occured we couldnt fetch any products',
                 'products' => $products,
             ], 404);
         }
