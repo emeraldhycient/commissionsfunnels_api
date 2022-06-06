@@ -19,6 +19,10 @@ class VerifyCsrfToken extends Middleware
         '/api/products/delete',
         '/api/dispatchers/register',
         '/api/dispatchers/update',
-        
+        '/api/dispatchers/update/{company_id}',
+        '/api/dispatchers/delete/{company_id}',
+        '/api/vendors/register',
+        '/api/vendors/update/{company_id}',
+        '/api/vendors/delete/{company_id}'
     ];
 }

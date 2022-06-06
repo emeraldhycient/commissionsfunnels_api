@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\DispatchersController;
+use App\Http\Controllers\VendorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,19 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     //update dispatcher
     Route::post('/dispatchers/update/{company_id}',[DispatchersController::class, 'updateDispatcher']);
+
+    //delete dispatcher
+    Route::delete('/dispatchers/delete/{company_id}',[DispatchersController::class, 'deleteDispatcher']);
+
+    //become a vendor
+    Route::post('/vendors/register',[VendorController::class, 'becomeVendor']);
+
+    //update vendor
+    Route::post('/vendors/update/{company_id}',[VendorController::class, 'updateVendor']);
+
+    //delete vendor
+    Route::delete('/vendors/delete/{company_id}',[VendorController::class, 'deleteVendor']);
+
 
 });
 
@@ -72,3 +86,27 @@ Route::get('/dispatchers/{company_id}',[DispatchersController::class, 'getDispat
 Route::get('/dispatchers/state/{state}',[DispatchersController::class, 'getDispatchersByState']);
 
 //Route::post('/dispatchers/register',[DispatchersController::class, 'becomeVendor']);
+
+//get all vendors
+Route::get('/vendors',[VendorController::class, 'getVendors']);
+
+//get a single vendor
+Route::get('/vendors/{company_id}',[VendorController::class, 'getVendor']);
+
+ //get vendors by state
+Route::get('/vendors/state/{state}',[VendorController::class, 'getVendorsByState']);
+
+//get vendors getVendorOrders
+Route::get('/vendors/orders/{company_id}',[VendorController::class, 'getVendorOrders']);
+
+//get vendors sales
+Route::get('/vendors/sales/{company_id}',[VendorController::class, 'getVendorSales']);
+
+//get vendor orders 
+Route::get('/vendors/orders/{company_id}',[VendorController::class, 'getVendorOrders']);
+
+//get vendor payments
+Route::get('/vendors/payments/{company_id}',[VendorController::class, 'getVendorPayments']);
+
+//get vendor profile
+Route::get('/vendors/profile/{company_id}',[VendorController::class, 'getVendorProfile']);

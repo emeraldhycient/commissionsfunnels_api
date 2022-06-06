@@ -14,10 +14,10 @@ class ProductController extends Controller
 
 
     {
+      $id =$request->product_seller; 
+       $user = User::where('user_id',$id)->first();
 
-       $user = User::where('user_id',$request->product_seller);
-
-        if($user && $user->is_vendor){
+       if($user && $user->is_dispatcher === 1){
 
             //validate incoming request
             $validate = $request->validate([

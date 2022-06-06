@@ -11,13 +11,13 @@ class DispatchersController extends Controller
     public function becomeVendor(Request $request){
 
         //rember to verify payment receipt
+        $user = User::where('user_id',$request->user_id)->first();
+        $dispatcher = Dispatcher::where('user_id',$request->user_id)->first();
 
-        $user = User::where('user_id',$request->user_id)->get();
-
-        if ($user && $user->is_dispatcher == 1) {
+        if ($user && $user->is_dispatcher == 1 && $dispatcher ) {
                 return response()->json([
                 'status' => 'failed',
-                'message' => 'You are already a dispatcher',]);
+                'message' => 'please check seems you are already a dispatcher if not check if there was an issue with ur login session',]);
         }
 
         $validate = $request->validate([
@@ -68,9 +68,9 @@ class DispatchersController extends Controller
             'next_payment_date' => $next_payment_date,
         ]);
 
-      /*  $user->is_dispatcher = 1;
+       $user->is_dispatcher = 1;
         $user->save();
-*/
+
 
         return response()->json([
             'status' => 'success',
@@ -164,6 +164,33 @@ class DispatchersController extends Controller
             'message' => 'Dispatchers found',
             'dispatchers' => $dispatchers,
         ], 200);
+    }
+
+    public function getDispatchersByZone($zone){
+        $dispatchers = Dispatcher::where('company_delivery_zone', $zone)->get();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Dispatchers found',
+            'dispatchers' => $dispatchers,
+        ], 200);
+    }
+
+    //delete dispatcher
+
+    public function deleteDispatcher($company_id){
+        $dispatcher = Dispatcher::where('company_id', $company_id)->first();
+        if($dispatcher){
+            $dispatcher->delete();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Dispatcher deleted',
+            ], 200);
+        }else{
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Dispatcher not found',
+            ], 404);
+        }
     }
 
 }
